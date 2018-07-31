@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 头部 -->
-    <app-header></app-header>
+    <app-header :poiInfo="poiInfo"></app-header>
     <!-- 导航 -->
     <app-nav></app-nav>
     <!-- 内容 -->
@@ -18,6 +18,20 @@ export default {
   components: {
     appHeader: Header,
     appNav: Nav
+  },
+  data() {
+    return {
+      poiInfo: {}
+    };
+  },
+  created() {
+    fetch("/api/goods")
+      .then(res => res.json())
+      .then(response => {
+        if (response.code == 0) {
+          this.poiInfo = response.data.poi_info;
+        }
+      });
   }
 };
 </script>
