@@ -164,7 +164,7 @@ export default {
 .header .top-wrapper .search-wrapper {
   width: 100%;
   height: 31px;
-  background: pink;
+  /* background: pink; */
   padding: 0 104px 0 50px;
   box-sizing: border-box;
 }
