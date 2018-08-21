@@ -106,7 +106,6 @@ export default {
   background: #f4f4f4;
 }
 .goods .foods-wrapper {
-  display: flex;
   flex: 1;
   /* background: blue; */
 }
