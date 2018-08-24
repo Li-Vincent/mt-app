@@ -14,6 +14,7 @@
                     <p class="text">
                         <img class="icon" :src="item.icon" v-if="item.icon"> {{item.name}}
                     </p>
+                    <i class="num" v-show="calculateCount(item.spus)">{{calculateCount(item.spus)}}</i>
                 </li>
             </ul>
         </div>
@@ -33,7 +34,7 @@
                     </h3>
                     <!-- 具体的商品列表 -->
                     <ul>
-                        <li v-for="(food,index) in item.spus" :key="index" class="food-item">
+                        <li v-for="(food,index) in item.spus" :key="index" class="food-item" @click="showDetail(food)">
                             <div class="icon" :style="head_bg(food.picture)"></div>
                             <div class="content">
                                 <h3 class="name">{{food.name}}</h3>
@@ -49,7 +50,7 @@
                                 </p>
                             </div>
                             <div class="cartcontrol-wrapper">
-                                <app-cart-control :food="food"></app-cart-control>
+                                <app-cart-control :food="selectFood"></app-cart-control>
                             </div>
                         </li>
                     </ul>
@@ -58,14 +59,17 @@
 
         </div>
         <!-- 购物车 -->
-        <app-shortcart :poiInfo="poiInfo"></app-shortcart>
+        <app-shopcart :poiInfo="poiInfo" :selectFoods="selectFoods"></app-shopcart>
+        <!-- 商品详情 -->
+        <app-product-detail :food="selectFood" ref="foodView"></app-product-detail>
     </div>
 </template>
 
 <script>
 import BScroll from "better-scroll";
-import Shortcart from "../shortcart/Shortcart";
+import Shopcart from "../shopcart/Shopcart";
 import CartControl from "../cartcontrol/CartControl";
+import ProductDetail from "../productDetail/ProductDetail";
 
 export default {
   data() {
@@ -76,12 +80,14 @@ export default {
       menuScroll: {},
       foodScroll: {},
       scrollY: 0,
-      poiInfo: {}
+      poiInfo: {},
+      selectFood: {}
     };
   },
   components: {
-    appShortcart: Shortcart,
-    appCartControl: CartControl
+    appShopcart: Shopcart,
+    appCartControl: CartControl,
+    appProductDetail: ProductDetail
   },
   methods: {
     head_bg(imgName) {
@@ -102,7 +108,6 @@ export default {
         probeType: 3,
         click: true
       });
-
       // foodScroll监听事件
       this.foodScroll.on("scroll", pos => {
         this.scrollY = Math.abs(Math.round(pos.y));
@@ -121,6 +126,19 @@ export default {
         height += item.clientHeight;
         this.listHeight.push(height);
       }
+    },
+    calculateCount(spus) {
+      let count = 0;
+      spus.forEach(food => {
+        if (food.count > 0) {
+          count += food.count;
+        }
+      });
+      return count;
+    },
+    showDetail(food) {
+      this.selectFood = food;
+      this.$refs.foodView.showView();
     }
   },
   created() {
@@ -155,6 +173,17 @@ export default {
         }
       }
       return 0;
+    },
+    selectFoods() {
+      let foods = [];
+      this.goods.forEach(myFoods => {
+        myFoods.spus.forEach(food => {
+          if (food.count > 0) {
+            foods.push(food);
+          }
+        });
+      });
+      return foods;
     }
   }
 };
@@ -182,6 +211,7 @@ export default {
 .goods .menu-wrapper .menu-item {
   padding: 16px 23px 15px 10px;
   border-bottom: 1px solid #e4e4e4;
+  position: relative;
 }
 .goods .menu-wrapper .menu-item .text {
   font-size: 13px;
@@ -297,5 +327,18 @@ export default {
   position: absolute;
   right: 0;
   bottom: 0;
+}
+.goods .menu-wrapper .menu-item .num {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  color: white;
+  background: red;
+  text-align: center;
+  font-size: 7px;
+  line-height: 13px;
 }
 </style>
