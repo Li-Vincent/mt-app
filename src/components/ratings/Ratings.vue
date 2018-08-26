@@ -1,73 +1,72 @@
 <template>
-    <div class="ratings" ref="ratingView">
-        <div class="ratings-wrapper">
-            <div class="overview">
-                <div class="overview-left">
-                    <div class="comment-score">
-                        <p class="score">{{ratings.comment_score}}</p>
-                        <p class="text">商家评分</p>
-                    </div>
-                    <div class="other-score">
-                        <div class="quality-score item">
-                            <span class="text">口味</span>
-                            <star :score="ratings.quality_score" class="star"></star>
-                            <span class="score"></span>
-                        </div>
-                        <div class="pack-score item">
-                            <span class="text">包装</span>
-                            <star class="star" :score="ratings.pack_score"></star>
-                        </div>
-                    </div>
-                </div>
-                <div class="overview-right">
-                    <div class="delivery-score">
-                        <p class="score">{{ratings.delivery_score}}</p>
-                        <p class="text">配送评分</p>
-                    </div>
-                </div>
+  <div class="ratings" ref="ratingView">
+    <div class="ratings-wrapper">
+      <div class="overview">
+        <div class="overview-left">
+          <div class="comment-score">
+            <p class="score">{{ratings.comment_score}}</p>
+            <p class="text">商家评分</p>
+          </div>
+          <div class="other-score">
+            <div class="quality-score item">
+              <span class="text">口味</span>
+              <star :score="ratings.quality_score" class="star"></star>
+              <span class="score"></span>
             </div>
-            <split></split>
-            <div class="content">
-                <div class="rating-select" v-if="ratings.tab">
-                    <span class="item" :class="{'active':selectType==2}" @click="selectTypeFn(2)">{{ratings.tab[0].comment_score_title}}</span>
-                    <span class="item" :class="{'active':selectType==1}" @click="selectTypeFn(1)">{{ratings.tab[1].comment_score_title}}</span>
-                    <span class="item" :class="{'active':selectType==0}" @click="selectTypeFn(0)">
-                        <img v-show="selectType!=0" src="./img/icon_sub_tab_dp_normal@2x.png">
-                        <img v-show="selectType==0" src="./img/icon_sub_tab_dp_highlighted@2x.png"> {{ratings.tab[2].comment_score_title}}
-                    </span>
-                </div>
-                <div class="labels-view">
-                    <span class="item" v-for="(item,index) in ratings.labels" :key="index" :class="{'highlight':item.label_star>0}">
-                        {{item.content}}{{item.label_count}}
-                    </span>
-                </div>
-                <ul class="rating-list">
-                    <li class="comment-item" v-for="(comment,index) in selectComments" :key="index">
-                        <div class="comment-header">
-                            <img :src="comment.user_pic_url" v-if="comment.user_pic_url">
-                            <img src="./img/anonymity.png" v-if="!comment.user_pic_url">
-                        </div>
-                        <div class="comment-main">
-                            <div class="user">{{comment.user_name}}</div>
-
-                            <div class="time">
-                                {{formatDate(comment.comment_time)}}
-                            </div>
-                            <div class="star-wrapper">
-                                <span class="text">评分</span>
-                                <star class="star" :score="comment.order_comment_score"></star>
-                            </div>
-                            <div class="content">
-                                {{comment.comment}}
-                                div.
-                                <img :src="comment.comment_pics" v-if="comment.comment_pics">
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="pack-score item">
+              <span class="text">包装</span>
+              <star class="star" :score="ratings.pack_score"></star>
             </div>
+          </div>
         </div>
+        <div class="overview-right">
+          <div class="delivery-score">
+            <p class="score">{{ratings.delivery_score}}</p>
+            <p class="text">配送评分</p>
+          </div>
+        </div>
+      </div>
+      <split></split>
+      <div class="content">
+        <div class="rating-select" v-if="ratings.tab">
+          <span class="item" :class="{'active':selectType==2}" @click="selectTypeFn(2)">{{ratings.tab[0].comment_score_title}}</span>
+          <span class="item" :class="{'active':selectType==1}" @click="selectTypeFn(1)">{{ratings.tab[1].comment_score_title}}</span>
+          <span class="item" :class="{'active':selectType==0}" @click="selectTypeFn(0)">
+            <img v-show="selectType!=0" src="./img/icon_sub_tab_dp_normal@2x.png">
+            <img v-show="selectType==0" src="./img/icon_sub_tab_dp_highlighted@2x.png"> {{ratings.tab[2].comment_score_title}}
+          </span>
+        </div>
+        <div class="labels-view">
+          <span class="item" v-for="(item,index) in ratings.labels" :key="index" :class="{'highlight':item.label_star>0}">
+            {{item.content}}{{item.label_count}}
+          </span>
+        </div>
+        <ul class="rating-list">
+          <li class="comment-item" v-for="(comment,index) in selectComments" :key="index">
+            <div class="comment-header">
+              <img :src="comment.user_pic_url" v-if="comment.user_pic_url">
+              <img src="./img/anonymity.png" v-if="!comment.user_pic_url">
+            </div>
+            <div class="comment-main">
+              <div class="user">{{comment.user_name}}</div>
+
+              <div class="time">
+                {{formatDate(comment.comment_time)}}
+              </div>
+              <div class="star-wrapper">
+                <span class="text">评分</span>
+                <star class="star" :score="comment.order_comment_score"></star>
+              </div>
+              <div class="content">
+                {{comment.comment}} div.
+                <img :src="comment.comment_pics" v-if="comment.comment_pics">
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
