@@ -25,7 +25,6 @@ export default {
       this.food.count--;
     },
     increaseCart() {
-      console.log(this.food.name);
       if (!this.food.count) {
         Vue.set(this.food, "count", 1);
       } else {
