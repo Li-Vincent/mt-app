@@ -50,7 +50,7 @@
                                 </p>
                             </div>
                             <div class="cartcontrol-wrapper">
-                                <app-cart-control :food="selectFood"></app-cart-control>
+                                <app-cart-control :food="food"></app-cart-control>
                             </div>
                         </li>
                     </ul>
